@@ -48,48 +48,57 @@ namespace HtmlSerializer
                 currentElement = currentElement.Parent;
             }
         }
-    }
-}
-public static class HtmlElementExtensions
-{
-    public static HashSet<HtmlElement> FindElementsBySelector(this HtmlElement element, Selector selector)
-    {
-        var results = new HashSet<HtmlElement>();
-        FindElementsBySelectorRecursive(element, selector, results);
-        return results;
-    }
 
-    private static void FindElementsBySelectorRecursive(HtmlElement element, Selector selector, HashSet<HtmlElement> results)
-    {
 
-        // Check if there is a next selector in the sequence
-        if (selector.Child != null)
+    }
+    public static class HtmlElementExtensions
+    {
+        public static HashSet<HtmlElement> FindElementsBySelector(this HtmlElement element, Selector selector)
         {
+            var results = new HashSet<HtmlElement>();
+            FindElementsBySelectorRecursive(element, selector, results);
+            return results;
+        }
+        private static void FindElementsBySelectorRecursive(HtmlElement element, Selector selector, HashSet<HtmlElement> results)
+        {
+            if (selector.Child == null)
+            {
+                results.Add(element);
+                return;
+            }
             // Continue recursively on the filtered descendants with the next selector
             var filteredDescendants = element.Descendants().Where(descendant => descendant.MatchesSelector(selector));
             foreach (var filteredDescendant in filteredDescendants)
             {
                 FindElementsBySelectorRecursive(filteredDescendant, selector.Child, results);
             }
+            //b
+            // if (selector.Child != null)
+            // {
+            //     var filteredDescendants = element.Descendants().Where(descendant => descendant.MatchesSelector(selector));
+            //     foreach (var filteredDescendant in filteredDescendants)
+            //     {
+            //         FindElementsBySelectorRecursive(filteredDescendant, selector.Child, results);
+            //     }
+            // }
+            // //}
+            // else
+            // {
+            //     results.Add(element);
+            //    // If the current selector is the last one, add the filtered descendants to the final result
+            //// results.UnionWith(element.Descendants().Where(descendant => descendant.MatchesSelector(selector)));
+            // }
         }
-        else
+        private static bool MatchesSelector(this HtmlElement element, Selector selector)
         {
-            //results.Add(element);
-            // If the current selector is the last one, add the filtered descendants to the final result
-            results.UnionWith(element.Descendants().Where(descendant => descendant.MatchesSelector(selector)));
+            return
+                (string.IsNullOrEmpty(selector.TagName) || element.Name == selector.TagName) &&
+                (string.IsNullOrEmpty(selector.Id) || element.Id == selector.Id) &&
+                (selector.Classes.All(cls => element.Classes.Contains(cls)));
         }
+
     }
-
-
-
-    private static bool MatchesSelector(this HtmlElement element, Selector selector)
-    {
-        return
-            (string.IsNullOrEmpty(selector.TagName) || element.Name == selector.TagName) &&
-            (string.IsNullOrEmpty(selector.Id) || element.Id == selector.Id) &&
-            (selector.Classes.All(cls => element.Classes.Contains(cls)));
-    }
-}   
+}
 
 
 

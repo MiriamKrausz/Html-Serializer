@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Html-Serializer 2\\Html-Serializer\\Html-Serializer.csproj",
+      "projectUniqueName": "D:\\תשפד\\פרקטיקוד\\תרגיל 2\\Html-Serializer 2\\Html-Serializer\\Html-Serializer.csproj",
       "projectName": "Html-Serializer",
-      "projectPath": "D:\\Html-Serializer 2\\Html-Serializer\\Html-Serializer.csproj",
+      "projectPath": "D:\\תשפד\\פרקטיקוד\\תרגיל 2\\Html-Serializer 2\\Html-Serializer\\Html-Serializer.csproj",
       "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-      "outputPath": "D:\\Html-Serializer 2\\Html-Serializer\\obj\\",
+      "outputPath": "D:\\תשפד\\פרקטיקוד\\תרגיל 2\\Html-Serializer 2\\Html-Serializer\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

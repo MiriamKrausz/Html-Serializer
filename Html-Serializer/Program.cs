@@ -15,7 +15,7 @@ static async Task<string> Load(string url)
 
 
 // The HTML tree is now constructed, you can manipulate or traverse it as needed
-static HtmlElement BuildHtmlTree(List<string> htmlLines)
+static HtmlElement Serialize(List<string> htmlLines)
 {
     var root = new HtmlElement();
     var currentElement = root;
@@ -88,17 +88,6 @@ static HtmlElement BuildHtmlTree(List<string> htmlLines)
 static void PrintHtmlElement(HtmlElement element, string indent = "")
 {
     Console.Write($"{indent}<{element.Name}");
-
-    if (!string.IsNullOrEmpty(element.Id))
-    {
-        Console.Write($" id=\"{element.Id}\"");
-    }
-
-    if (element.Classes.Any())
-    {
-        Console.Write($" class=\"{string.Join(" ", element.Classes)}\"");
-    }
-
     if (element.Attributes.Any())
     {
         Console.Write($" {string.Join(" ", element.Attributes)}");
@@ -106,37 +95,60 @@ static void PrintHtmlElement(HtmlElement element, string indent = "")
     Console.WriteLine($"{indent}</{element.Name}>");
 }
 
-var html = await Load("https://learn.malkabruk.co.il");
+
+
+//var html = await Load("https://forum.netfree.link/category/1/%D7%94%D7%9B%D7%A8%D7%96%D7%95%D7%AA");
+//var cleanHtml = new Regex("\\s+").Replace(html, " ");
+//var htmlLines = new Regex("<(.*?)>").Split(cleanHtml).Where(s => s.Length > 0).ToList();
+//var htmlTree = Serialize(htmlLines);
+//Console.WriteLine("HTML Tree construction completed.");
+//string s = "i.fa";
+//Selector selector = Selector.FromQueryToSeletor(s);
+//List<HtmlElement> list = htmlTree.FindElementsBySelector(selector).ToList();
+
+
+
+////Print the elements:
+//Console.WriteLine("List of " + list.ToList().Count() + " elements found:");
+//foreach (var element in list)
+//{
+//    Console.WriteLine("My ancestors are:");
+//    foreach (var father in element.Ancestors().ToList())
+//    {
+//        Console.Write("  " + father.Name);
+//    }
+//    Console.WriteLine();
+//    PrintHtmlElement(element);
+//}
+//loading an html page:
+var html = await Load("https://forum.netfree.link/category/1/%D7%94%D7%9B%D7%A8%D7%96%D7%95%D7%AA");
 var cleanHtml = new Regex("\\s+").Replace(html, " ");
 var htmlLines = new Regex("<(.*?)>").Split(cleanHtml).Where(s => s.Length > 0).ToList();
-var htmlTree = BuildHtmlTree(htmlLines);
-//אפשר לעשות משהו עם התוצאה, לדוג', להדפיס את התוצאה לקונסול
-//foreach (var element in matchingElements)
-//{
-//    Console.WriteLine($"Found element: {element}");
-//}
-//Console.WriteLine();
-//var elementsList = HtmlElement.FindElementsBySelector(htmlTree, selector);
-//Console.WriteLine("--------------------------------------------------------------");
-//Console.WriteLine("The list of" + elementsList.ToList().Count() + " elements found:");
-//foreach (var e in elementsList)
-//{
-//    PrintHtmlElement(e);
-//}
-//Console.WriteLine("--------------------------------------------------------------");
-////Console.WriteLine(selector);
-//Console.WriteLine("**********");
-//Console.WriteLine("Tag Name: " + selector.TagName);
-//Console.WriteLine("ID: " + selector.Id);
-//Console.WriteLine("Classes: " + string.Join(", ", selector.Classes));
-//Console.ReadLine();
-Console.WriteLine("HTML Tree construction completed.");
-string s = "a#login-btn";
-Selector selector = Selector.FromQueryToSeletor(s);
-List<HtmlElement> list = htmlTree.FindElementsBySelector(selector).ToList();
-Console.WriteLine("match element: " + list.ToList().Count());
-foreach (var element in list)
+
+//Build the tree:
+var htmlTree = Serialize(htmlLines);
+
+//queryStrings:
+string queryString0 = "a i.fa";//45 results
+string queryString1 = "nav#menu.slideout-menu";//1 results
+string queryString2 = "div .category";//only 1 result
+
+//selector:
+var selector = Selector.FromQueryString(queryString2);
+
+var elementsList = htmlTree.FindElementsBySelector(selector);
+
+
+//Print the elements:
+Console.WriteLine("List of " + elementsList.ToList().Count() + " elements found:");
+foreach (var element in elementsList)
 {
+    Console.WriteLine("My ancestors are:");
+    foreach (var father in element.Ancestors().ToList())
+    {
+        Console.Write("  " + father.Name);
+    }
+    Console.WriteLine();
     PrintHtmlElement(element);
 }
 
