@@ -48,12 +48,10 @@ namespace HtmlSerializer
                 currentElement = currentElement.Parent;
             }
         }
-
-
     }
     public static class HtmlElementExtensions
     {
-        public static HashSet<HtmlElement> FindElementsBySelector(this HtmlElement element, Selector selector)
+        public static HashSet<HtmlElement>FindElementsBySelector(this HtmlElement element, Selector selector)
         {
             var results = new HashSet<HtmlElement>();
             FindElementsBySelectorRecursive(element, selector, results);
@@ -72,22 +70,6 @@ namespace HtmlSerializer
             {
                 FindElementsBySelectorRecursive(filteredDescendant, selector.Child, results);
             }
-            //b
-            // if (selector.Child != null)
-            // {
-            //     var filteredDescendants = element.Descendants().Where(descendant => descendant.MatchesSelector(selector));
-            //     foreach (var filteredDescendant in filteredDescendants)
-            //     {
-            //         FindElementsBySelectorRecursive(filteredDescendant, selector.Child, results);
-            //     }
-            // }
-            // //}
-            // else
-            // {
-            //     results.Add(element);
-            //    // If the current selector is the last one, add the filtered descendants to the final result
-            //// results.UnionWith(element.Descendants().Where(descendant => descendant.MatchesSelector(selector)));
-            // }
         }
         private static bool MatchesSelector(this HtmlElement element, Selector selector)
         {
@@ -96,7 +78,6 @@ namespace HtmlSerializer
                 (string.IsNullOrEmpty(selector.Id) || element.Id == selector.Id) &&
                 (selector.Classes.All(cls => element.Classes.Contains(cls)));
         }
-
     }
 }
 

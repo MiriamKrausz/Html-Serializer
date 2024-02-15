@@ -19,7 +19,7 @@ namespace HtmlSerializer
             Classes = new List<string>();
         }
 
-        public static Selector FromQueryToSeletor(string queryString)
+        public static Selector FromStringToSeletor(string queryString)
         {
             var selectors = queryString.Split(' ');
             var rootSelector = new Selector();

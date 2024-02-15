@@ -12,8 +12,6 @@ static async Task<string> Load(string url)
     var html = await response.Content.ReadAsStringAsync();
     return html;
 }
-
-
 // The HTML tree is now constructed, you can manipulate or traverse it as needed
 static HtmlElement Serialize(List<string> htmlLines)
 {
@@ -94,33 +92,6 @@ static void PrintHtmlElement(HtmlElement element, string indent = "")
     }
     Console.WriteLine($"{indent}</{element.Name}>");
 }
-
-
-
-//var html = await Load("https://forum.netfree.link/category/1/%D7%94%D7%9B%D7%A8%D7%96%D7%95%D7%AA");
-//var cleanHtml = new Regex("\\s+").Replace(html, " ");
-//var htmlLines = new Regex("<(.*?)>").Split(cleanHtml).Where(s => s.Length > 0).ToList();
-//var htmlTree = Serialize(htmlLines);
-//Console.WriteLine("HTML Tree construction completed.");
-//string s = "i.fa";
-//Selector selector = Selector.FromQueryToSeletor(s);
-//List<HtmlElement> list = htmlTree.FindElementsBySelector(selector).ToList();
-
-
-
-////Print the elements:
-//Console.WriteLine("List of " + list.ToList().Count() + " elements found:");
-//foreach (var element in list)
-//{
-//    Console.WriteLine("My ancestors are:");
-//    foreach (var father in element.Ancestors().ToList())
-//    {
-//        Console.Write("  " + father.Name);
-//    }
-//    Console.WriteLine();
-//    PrintHtmlElement(element);
-//}
-//loading an html page:
 var html = await Load("https://forum.netfree.link/category/1/%D7%94%D7%9B%D7%A8%D7%96%D7%95%D7%AA");
 var cleanHtml = new Regex("\\s+").Replace(html, " ");
 var htmlLines = new Regex("<(.*?)>").Split(cleanHtml).Where(s => s.Length > 0).ToList();
@@ -134,7 +105,7 @@ string queryString1 = "nav#menu.slideout-menu";//1 results
 string queryString2 = "div .category";//only 1 result
 
 //selector:
-var selector = Selector.FromQueryString(queryString2);
+var selector = Selector.FromStringToSeletor(queryString2);
 
 var elementsList = htmlTree.FindElementsBySelector(selector);
 
